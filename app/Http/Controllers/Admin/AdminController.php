@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Helper;
 use App\Interfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
@@ -15,17 +13,34 @@ class AdminController extends Controller
         private AdminRepositoryInterface $admin
     ) {}
 
+    public function index()
+    {
+        return $this->admin->getAll();
+    }
+
     public function store(Request $request) 
     {
-        
-        //dd(Auth::guard('admin')->user());
-       /*  Helper::getUserAdmin($request);
-
-        if (!Gate::allows('admin-access', auth()->user())) {
-            abort(403);
-        } */
+        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403);
 
         $admin = $this->admin->createAdmin($request->all());
+
+        return response()->json($admin);
+    }
+
+    public function update(Request $request, $id)
+    {        
+        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403); 
+
+        $admin = $this->admin->updateAdmin($request->all(), $id);
+
+        return response()->json($admin);
+    }
+
+    public function destroy($id) 
+    {
+        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403); 
+
+        $admin = $this->admin->deleteAdmin($id);
 
         return response()->json($admin);
     }

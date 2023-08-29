@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 // Admin
 Route::resource('admin', AdminController::class)->middleware('auth:sanctum');
-    
+
 // Não autorizado
 Route::prefix('admin')->namespace('admin')->group(function () {
     // Rota para login
     Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/recover-password', [LoginController::class, 'recoverPassword'])->name('login');
 });
