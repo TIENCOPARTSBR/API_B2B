@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\RecoveryPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,15 @@ use Illuminate\Support\Facades\Route;
 Route::resource('admin', AdminController::class)->middleware('auth:sanctum');
 
 // Não autorizado
-Route::prefix('admin')->namespace('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     // Rota para login
     Route::post('/login', [LoginController::class, 'login'])->name('login');
-    Route::post('/recover-password', [LoginController::class, 'recoverPassword'])->name('login');
+
+    // Recuperar senha
+    Route::controller(RecoveryPasswordController::class)->group(function() {
+        Route::post('/recover-password','create');
+        Route::post('/recover-password/code','verifyCode');
+        Route::post('/recover-password/code/change-password','changePassword');
+    });
 });
+

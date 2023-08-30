@@ -20,8 +20,6 @@ class AdminController extends Controller
 
     public function store(Request $request) 
     {
-        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403);
-
         $admin = $this->admin->createAdmin($request->all());
 
         return response()->json($admin);
@@ -29,8 +27,6 @@ class AdminController extends Controller
 
     public function update(Request $request, $id)
     {        
-        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403); 
-
         $admin = $this->admin->updateAdmin($request->all(), $id);
 
         return response()->json($admin);
@@ -44,4 +40,4 @@ class AdminController extends Controller
 
         return response()->json($admin);
     }
-}
+}-

@@ -16,19 +16,24 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
-
-        if (Auth::guard('admin')->attempt($credentials)) {
+        // Verifica se o dados fornecidos são válidos e registra no guard sanctum
+        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
+            // Pega o id do usuário logado e gera o token
             $admin = Auth::guard('admin')->user();
             $token = $this->admin->createToken($admin->id);
-            return response()->json($token, 200);
+
+            // retorno
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login efetuado com sucesso!',
+                'token' => $token
+            ], 200);
         }
 
-        return response()->json(['Unauthorized'], 401);
-    }
-
-    public function recoverPassword(Request $request) 
-    {
-        dd($request);
+        // não autorizado
+        return response()->json([
+            'status' => 403,
+            'message' => 'Não autorizado!'
+        ], 403);
     }
 }

@@ -6,12 +6,35 @@ use Illuminate\Http\Request;
 
 class Helper 
 {
-    public static function getUserAdmin(Request $request)
+    public function http_response_code_500()
     {
-        $token = $request->bearerToken();
-        $decodedPayload = base64_decode($token);
-        $userData = json_decode($decodedPayload);
+        return response()->json([
+            'status' => 500,
+            'message' => 'Ocorreu um erro ao processar sua solicitação.'
+        ], 500);
+    }
+    
+    public function http_response_code_200($message, $custom = NULL)
+    {
+        $response = [
+            'status' => 200,
+            'message' => $message,
+        ];
 
-        dd($userData->sub);
+        if ($custom) $response = array_merge($response, $custom);
+
+        return response()->json($response, 200);
+    }
+
+    public function http_response_code_404($message, $custom = NULL)
+    {
+        $response = [
+            'status' => 404,
+            'message' => $message,
+        ];
+
+        if ($custom) $response = array_merge($response, $custom);
+
+        return response()->json($response, 404);
     }
 }

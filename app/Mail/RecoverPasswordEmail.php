@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -16,10 +15,10 @@ class RecoverPasswordEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        private $user,
+        private $token
+    ) {}
 
     /**
      * Get the message envelope.
@@ -27,17 +26,18 @@ class RecoverPasswordEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recover Password Email',
+            subject: 'Recuperar senha - B2B',
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.admin.recovery-password',
+            with: ['user' => $this->user, 'token' => $this->token]
         );
     }
 

@@ -9,4 +9,7 @@ interface AdminRepositoryInterface
     public function updateAdmin($request, $id);
     public function createToken($token);
     public function deleteAdmin($id);
+    public function randomToken($id);
+    public function verifyCode($code);
+    public function changePasswordForCode($request);
 }
