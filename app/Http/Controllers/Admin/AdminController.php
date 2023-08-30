@@ -34,10 +34,8 @@ class AdminController extends Controller
 
     public function destroy($id) 
     {
-        if (!Gate::allows('admin-access', auth('sanctum')->user())) abort(403); 
-
         $admin = $this->admin->deleteAdmin($id);
 
         return response()->json($admin);
     }
-}-
+}

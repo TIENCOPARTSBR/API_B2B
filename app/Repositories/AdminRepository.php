@@ -25,7 +25,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::create($request);
-            return 'Usuário criado com sucesso';
+            return $this->helper->http_response_code_200('Usuário criado com sucesso');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -35,7 +35,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::find($id)->update($request);
-            return 'Usuário Alterado com sucesso';
+            return $this->helper->http_response_code_200('Usuário alterado com sucesso');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -45,7 +45,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::find($id)->delete();
-            return 'Usuário deletado com sucesso';
+            return $this->helper->http_response_code_200('Usuário deletado com sucesso');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }

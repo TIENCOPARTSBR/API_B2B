@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin
-Route::resource('admin', AdminController::class)->middleware('auth:sanctum');
+Route::resource('admin', AdminController::class);
 
 // Não autorizado
 Route::prefix('admin')->group(function () {
@@ -31,4 +31,3 @@ Route::prefix('admin')->group(function () {
         Route::post('/recover-password/code/change-password','changePassword');
     });
 });
-
