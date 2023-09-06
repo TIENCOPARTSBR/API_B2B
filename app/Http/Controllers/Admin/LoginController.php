@@ -33,7 +33,7 @@ class LoginController extends Controller
         // não autorizado
         return response()->json([
             'status' => 403,
-            'message' => 'Não autorizado!'
+            'message' => 'Usuário ou senha não conferem!'
         ], 403);
     }
 }
