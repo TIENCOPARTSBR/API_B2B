@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
@@ -16,6 +15,11 @@ class AdminController extends Controller
     public function index()
     {
         return $this->admin->getAll();
+    }
+
+    public function show($id)
+    {
+        return $this->admin->getById($id);
     }
 
     public function store(Request $request) 

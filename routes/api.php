@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\RecoveryPasswordController;
+use App\Http\Controllers\DirectDistributor\DirectDistributor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin
-Route::resource('admin', AdminController::class);
+Route::prefix('admin')->group(function () {
+    Route::resource('user', AdminController::class);
+    Route::resource('direct-distributor', DirectDistributor::class);
+})->middleware('auth:sanctum');
 
 // Não autorizado
 Route::prefix('admin')->group(function () {

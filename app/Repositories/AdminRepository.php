@@ -15,7 +15,16 @@ class AdminRepository implements AdminRepositoryInterface
     public function getAll()
     {
         try {
-            return Admin::select('id', 'name', 'email', 'type')->get();
+            return Admin::all();
+        } catch (\Throwable $th) {
+            return $this->helper->http_response_code_500();
+        }
+    }
+
+    public function getById($id)
+    {
+        try {
+            return Admin::findOrFail($id);
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
