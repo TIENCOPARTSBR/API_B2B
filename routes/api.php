@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 // Admin
 Route::prefix('admin')->group(function () {
-    Route::resource('user', AdminController::class);
-    Route::resource('direct-distributor', DirectDistributor::class);
-})->middleware('auth:sanctum');
+    Route::resource('user', AdminController::class)->middleware('auth:sanctum');
+    Route::resource('direct-distributor', DirectDistributor::class)->middleware('auth:sanctum');
+});
 
 // Não autorizado
 Route::prefix('admin')->group(function () {
