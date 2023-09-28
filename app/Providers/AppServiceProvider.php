@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AdminConfigInterface;
 use App\Interfaces\AdminRepositoryInterface;
 use App\Interfaces\DirectDistributorInterface;
+use App\Repositories\AdminConfigRepository;
 use App\Repositories\AdminRepository;
 use App\Repositories\DirectDistributorRepository;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DirectDistributorInterface::class,
             DirectDistributorRepository::class
+        );
+
+        $this->app->bind(
+            AdminConfigInterface::class,
+            AdminConfigRepository::class
         );
     }
 

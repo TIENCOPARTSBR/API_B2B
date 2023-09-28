@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\RecoveryPasswordController;
+use App\Http\Controllers\Configuration\Configuration;
 use App\Http\Controllers\DirectDistributor\DirectDistributor;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,12 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
     Route::resource('user', AdminController::class);
     Route::resource('direct-distributor', DirectDistributor::class);
+    Route::controller(Configuration::class)->group(function() {
+        Route::get('/config/cost-date','getCostDate');
+        Route::put('/config/cost-date','putCostDate');
+        Route::get('/config/email-quotation','getMailQuotation');
+        Route::put('/config/email-quotation','putMailQuotation');
+    });
 })->middleware('auth:sanctum');
 
 // Não autorizado
