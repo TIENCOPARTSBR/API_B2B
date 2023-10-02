@@ -10,7 +10,7 @@ class Helper
     {
         return response()->json([
             'status' => 500,
-            'message' => 'Ocorreu um erro ao processar sua solicitação.'
+            'message' => 'An error occurred while processing your request.'
         ], 500);
     }
     

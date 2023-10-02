@@ -34,7 +34,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::create($request);
-            return $this->helper->http_response_code_200('Usuário criado com sucesso');
+            return $this->helper->http_response_code_200('User created successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -44,7 +44,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::find($id)->update($request);
-            return $this->helper->http_response_code_200('Usuário alterado com sucesso');
+            return $this->helper->http_response_code_200('User modified successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -54,7 +54,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             Admin::find($id)->delete();
-            return $this->helper->http_response_code_200('Usuário deletado com sucesso');
+            return $this->helper->http_response_code_200('User deleted successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -88,9 +88,9 @@ class AdminRepository implements AdminRepositoryInterface
             // Faz a consulta no banco de dados se o token existe para algum usuário.
             $admin = Admin::where('token', $code)->first();
             // Verifica se existe esse código em algum usuário administrador.
-            if ($admin) return $this->helper->http_response_code_200('O código fornecido é válido.', ['id_administrador' => $admin->id]);
+            if ($admin) return $this->helper->http_response_code_200('The provided code is valid.', ['id_administrador' => $admin->id]);
             // se não existir o código retornar inválido
-            return $this->helper->http_response_code_404('O código fornecido é inválido.');
+            return $this->helper->http_response_code_404('The provided code is invalid.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -106,11 +106,11 @@ class AdminRepository implements AdminRepositoryInterface
                 // Atualizo a senha e zero o token
                 $admin->update(['password' => $request['password'], 'token' => '']);
                 // Retorno
-                return $this->helper->http_response_code_200('Senha alterada com sucesso!');
+                return $this->helper->http_response_code_200('Password changed successfully.');
             } 
 
             // se não existir o usuário retornar inválido
-            return $this->helper->http_response_code_404('Não foi possível alterar a senha.');
+            return $this->helper->http_response_code_404('The password could not be changed.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }

@@ -30,15 +30,15 @@ class RecoveryPasswordController
                     $token = $this->repository->randomToken($user->id);
                     // Faço a construção e envio do e-mail.
                     $content = new RecoverPasswordEmail($user, $token);
-                    Mail::to('daniel.ismael@encoparts.com')->send($content);
+                    Mail::to($user->email)->send($content);
                     // retorno
-                    return $this->helper->http_response_code_200('Foi enviado um e-mail com instruções para recuperar a senha.');
+                    return $this->helper->http_response_code_200('An email with instructions to reset the password has been sent.');
                 } catch (\Throwable $th) {
                     return $this->helper->http_response_code_500();
                 }
             }
             
-            return $this->helper->http_response_code_404('Esse e-mail não pertence a nenhum administrador.');
+            return $this->helper->http_response_code_404('This email does not belong to any administrator.');
         }
     }
 

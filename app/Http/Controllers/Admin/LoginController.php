@@ -25,7 +25,7 @@ class LoginController extends Controller
             // retorno
             return response()->json([
                 'status' => 200,
-                'message' => 'Login efetuado com sucesso!',
+                'message' => 'Successful login. Welcome!',
                 'token' => $token
             ], 200);
         }
@@ -33,7 +33,7 @@ class LoginController extends Controller
         // não autorizado
         return response()->json([
             'status' => 403,
-            'message' => 'Usuário ou senha não conferem!'
+            'message' => 'Username or password does not match.'
         ], 403);
     }
 }

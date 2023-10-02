@@ -34,7 +34,7 @@ class DirectDistributorRepository implements DirectDistributorInterface
     {
         try {
             DirectDistributor::create($request);
-            return $this->helper->http_response_code_200('Distribuidor direto criado com sucesso');
+            return $this->helper->http_response_code_200('Direct distributor created successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -44,7 +44,7 @@ class DirectDistributorRepository implements DirectDistributorInterface
     {
         try {
             DirectDistributor::find($id)->update($request);
-            return $this->helper->http_response_code_200('Distribuidor direto alterado com sucesso');
+            return $this->helper->http_response_code_200('Direct distributor modified successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -54,7 +54,7 @@ class DirectDistributorRepository implements DirectDistributorInterface
     {
         try {
             DirectDistributor::find($id)->delete();
-            return $this->helper->http_response_code_200('Distribuidor direto deletado com sucesso');
+            return $this->helper->http_response_code_200('Direct distributor deleted successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
