@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class DirectDistributorUserData extends Authenticatable 
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
+
 
     protected $table = "direct_distributor_user_data";
     protected $guard = "direct-distributor";
@@ -19,7 +22,6 @@ class DirectDistributorUserData extends Authenticatable
         'email',
         'password',
         'token',
-        'remember_token',
     ];
 
     protected $hidden = [

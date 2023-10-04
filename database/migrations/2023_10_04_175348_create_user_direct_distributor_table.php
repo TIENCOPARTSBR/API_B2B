@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('direct_distributor_user_data', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('direct_distributor_id');
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('direct_distributor');
             $table->char('type', 1);
             $table->string('name');
             $table->string('email')->unique();

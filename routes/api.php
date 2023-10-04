@@ -61,12 +61,12 @@ Route::prefix('/')->group(function () {
 // Não autorizado
 Route::prefix('/')->group(function () {
     // Rota para login
-    Route::post('/login', [DirectDistributorLoginController::class, 'login']);
+    Route::post('login', [DirectDistributorLoginController::class, 'login']);
 
     // Recuperar senha
     Route::controller(DirectDistributorRecoveryPasswordController::class)->group(function() {
-        Route::post('/recover-password','create');
-        Route::post('/recover-password/code','verifyCode');
-        Route::post('/recover-password/code/change-password','changePassword');
+        Route::post('recover-password','create');
+        Route::post('recover-password/code','verifyCode');
+        Route::post('recover-password/code/change-password','changePassword');
     });
 });

@@ -53,7 +53,7 @@ class DirectDistributorUserDataRepository implements DirectDistributorUserDataIn
     public function delete($id)
     {
         try {
-            DirectDistributorUserData::find($id)->delete();
+            DirectDistributorUserData::findOrFail($id)->delete();
             return $this->helper->http_response_code_200('Direct Distributor User Deleted Successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
@@ -63,7 +63,7 @@ class DirectDistributorUserDataRepository implements DirectDistributorUserDataIn
     public function createToken($id)
     {
         try {
-            $admin = DirectDistributorUserData::find($id);
+            $admin = DirectDistributorUserData::findOrFail($id);
             $admin->tokens()->delete();
             return $admin->createToken($admin->name)->plainTextToken;
         } catch (\Throwable $th) {
