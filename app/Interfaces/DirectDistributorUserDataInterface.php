@@ -2,14 +2,14 @@
 
 namespace App\Interfaces;
 
-interface AdminRepositoryInterface
+interface DirectDistributorUserDataInterface
 {
     public function getAll();
     public function getById($id);
-    public function createAdmin($request);
-    public function updateAdmin($request, $id);
+    public function create($request);
+    public function update($request, $id);
+    public function delete($id);
     public function createToken($token);
-    public function deleteAdmin($id);
     public function randomToken($id);
     public function verifyCode($code);
     public function changePasswordForCode($request);

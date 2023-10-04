@@ -3,10 +3,10 @@
 namespace App\Repositories;
 
 use App\Http\Helper;
-use App\Interfaces\AdminRepositoryInterface;
-use App\Models\Admin;
+use App\Interfaces\DirectDistributorUserDataInterface;
+use App\Models\DirectDistributorUserData;
 
-class AdminRepository implements AdminRepositoryInterface
+class DirectDistributorUserDataRepository implements DirectDistributorUserDataInterface
 {
     public function __construct(
         private Helper $helper
@@ -15,7 +15,7 @@ class AdminRepository implements AdminRepositoryInterface
     public function getAll()
     {
         try {
-            return Admin::all();
+            return DirectDistributorUserData::all();
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -24,37 +24,37 @@ class AdminRepository implements AdminRepositoryInterface
     public function getById($id)
     {
         try {
-            return Admin::findOrFail($id);
+            return DirectDistributorUserData::findOrFail($id);
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
     }
 
-    public function createAdmin($request)
+    public function create($request)
     {
         try {
-            Admin::create($request);
-            return $this->helper->http_response_code_200('User created successfully.');
+            DirectDistributorUserData::create($request);
+            return $this->helper->http_response_code_200('Direct Distributor User Created Successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
     }
 
-    public function updateAdmin($request, $id)
+    public function update($request, $id)
     {
         try {
-            Admin::find($id)->update($request);
-            return $this->helper->http_response_code_200('User modified successfully.');
+            DirectDistributorUserData::find($id)->update($request);
+            return $this->helper->http_response_code_200('Direct Distributor User Changed Successfully');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
     }
 
-    public function deleteAdmin($id)
+    public function delete($id)
     {
         try {
-            Admin::find($id)->delete();
-            return $this->helper->http_response_code_200('User deleted successfully.');
+            DirectDistributorUserData::find($id)->delete();
+            return $this->helper->http_response_code_200('Direct Distributor User Deleted Successfully.');
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -63,7 +63,7 @@ class AdminRepository implements AdminRepositoryInterface
     public function createToken($id)
     {
         try {
-            $admin = Admin::find($id);
+            $admin = DirectDistributorUserData::find($id);
             $admin->tokens()->delete();
             return $admin->createToken($admin->name)->plainTextToken;
         } catch (\Throwable $th) {
@@ -75,7 +75,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             $randomCode = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-            Admin::findOrFail($id)->update(['token' => $randomCode]);
+            DirectDistributorUserData::findOrFail($id)->update(['token' => $randomCode]);
             return $randomCode;
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
@@ -86,7 +86,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             // Faz a consulta no banco de dados se o token existe para algum usuário.
-            $admin = Admin::where('token', $code)->first();
+            $admin = DirectDistributorUserData::where('token', $code)->first();
             // Verifica se existe esse código em algum usuário administrador.
             if ($admin) return $this->helper->http_response_code_200('The provided code is valid.', ['id_administrador' => $admin->id]);
             // se não existir o código retornar inválido
@@ -100,7 +100,7 @@ class AdminRepository implements AdminRepositoryInterface
     {
         try {
             // Verifica se existe esse código em algum usuário administrador.
-            $admin = Admin::find($request['id']);
+            $admin = DirectDistributorUserData::find($request['id']);
             
             if ($admin) {
                 // Atualizo a senha e zero o token

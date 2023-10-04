@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\DirectDistributor\Auth;
 
 use App\Http\Helper;
-use App\Interfaces\AdminRepositoryInterface;
+use App\Interfaces\DirectDistributorUserDataInterface;
 use App\Mail\RecoverPasswordEmail;
-use App\Models\Admin;
+use App\Models\DirectDistributorUserData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class RecoveryPasswordController
 {
     public function __construct(
-        private AdminRepositoryInterface $repository,
+        private DirectDistributorUserDataInterface $user_data,
         private Helper $helper
     ) {}
 
@@ -22,12 +22,12 @@ class RecoveryPasswordController
         // Se exisitr o e-mail
         if (isset($request->email)) {
             // Verifico se o e-mail pertence a algum administrador
-            $user = Admin::where('email', $request->email)->first();
+            $user = DirectDistributorUserData::where('email', $request->email)->first();
             
             if ($user) {
                 try {
                     // Registro um token para o usuário
-                    $token = $this->repository->randomToken($user->id);
+                    $token = $this->user_data->randomToken($user->id);
                     // Faço a construção e envio do e-mail.
                     $content = new RecoverPasswordEmail($user, $token);
                     Mail::to($user->email)->send($content);
@@ -44,7 +44,7 @@ class RecoveryPasswordController
 
     public function verifyCode(Request $request)
     { 
-        return $this->repository->verifyCode($request->code);
+        return $this->user_data->verifyCode($request->code);
     }
 
     public function changePassword(Request $request)
@@ -57,6 +57,6 @@ class RecoveryPasswordController
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        return $this->repository->changePasswordForCode($request->all());
+        return $this->user_data->changePasswordForCode($request->all());
     }
 }

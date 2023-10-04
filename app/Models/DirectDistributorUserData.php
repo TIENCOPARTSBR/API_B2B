@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class Admin extends Authenticatable 
+class DirectDistributorUserData extends Authenticatable 
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
-    protected $guard = 'admin';
-    protected $table = 'admin';
-    protected $primaryKey = 'id';
+    protected $table = "direct_distributor_user_data";
+    protected $guard = "direct-distributor";
+    protected $primary_key = "id";
 
     protected $fillable = [
+        'type',
         'name',
         'email',
         'password',
-        'token'
+        'token',
+        'remember_token',
     ];
 
     protected $hidden = [

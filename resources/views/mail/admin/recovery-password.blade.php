@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Recuperação de Senha - B2B</title>
+    <title>Password Recovery - B2B</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f2f2f2; /* Amarelo */
+            background-color: #f2f2f2; /* Yellow */
         }
         .container {
             max-width: 600px;
@@ -45,17 +45,17 @@
 <body>
     <div class="container">
         <div class="header">    
-            <h3>Recuperação de Senha</h3>
+            <h3>Password Recovery</h3>
         </div>
         <div class="message">
-            <p>Olá, {{$user->name}}</p>
-            <p>Você está recebendo este e-mail porque recebemos uma solicitação de recuperação de senha para a sua conta.</p>
-            <p>Utilize esse código para redefinir sua senha: <strong>{{$token}}</strong></p>
-            <p>Se você não solicitou a recuperação de senha, ignore este e-mail.</p>
+            <p>Hello, {{$user->name}}</p>
+            <p>You are receiving this email because we have received a password recovery request for your account.</p>
+            <p>Use this code to reset your password: <strong>{{$token}}</strong></p>
+            <p>If you did not request a password recovery, please ignore this email.</p>
         </div>
     </div>
     <div class="footer">
-        <p>Atenciosamente,<br><img src="https://encoparts.com/wp-content/uploads/2023/02/enco-site.png" width="100" alt=""></p>
+        <p>Best Regards,<br><img src="https://encoparts.com/wp-content/uploads/2023/02/enco-site.png" width="100" alt=""></p>
     </div>
 </body>
 </html>
