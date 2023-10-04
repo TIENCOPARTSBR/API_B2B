@@ -15,7 +15,7 @@ return [
    
     'defaults' => [
         'guard' => 'admin',
-        'passwords' => 'admins',
+        'passwords' => 'admin',
     ],
 
     /*
@@ -38,7 +38,11 @@ return [
     'guards' => [
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'admin',
+        ],
+        'direct-distributor' => [
+            'driver' => 'session',
+            'provider' => 'direct-distributor',
         ],
     ],
 
@@ -60,9 +64,13 @@ return [
     */
 
     'providers' => [
-        'admins' => [
+        'admin' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+        'direct-distributor' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\DirectDistributorUserData::class,
         ],
     ],
 
@@ -88,6 +96,12 @@ return [
     'passwords' => [
         'admin' => [
             'provider' => 'admins',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'direct-distributor' => [
+            'provider' => 'direct-distributor',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\DirectDistributor\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\AdminRepositoryInterface;
+use App\Interfaces\DirectDistributorUserDataInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     public function __construct(
-        private AdminRepositoryInterface $admin
+        private DirectDistributorUserDataInterface $user_data
     ) {}
 
     public function login(Request $request)
     {
         // Verifica se o dados fornecidos são válidos e registra no guard sanctum
-        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
+        if (Auth::guard('direct-distributor')->attempt($request->only(['email', 'password']))) {
             // Pega o id do usuário logado e gera o token
-            $admin = Auth::guard('admin')->user();
-            $token = $this->admin->createToken($admin->id);
+            $user_data = Auth::guard('direct-distributor')->user();
+            $token = $this->user_data->createToken($user_data->id);
 
             // retorno
             return response()->json([
