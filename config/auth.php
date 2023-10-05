@@ -15,7 +15,7 @@ return [
    
     'defaults' => [
         'guard' => 'admin',
-        'passwords' => 'admin',
+        'passwords' => 'admins',
     ],
 
     /*
@@ -37,12 +37,12 @@ return [
 
     'guards' => [
         'admin' => [
-            'driver' => 'session',
-            'provider' => 'admin',
+            'driver' => 'jwt',
+            'provider' => 'admins',
         ],
-        'direct-distributor' => [
-            'driver' => 'session',
-            'provider' => 'direct-distributor',
+        'directDistributor' => [
+            'driver' => 'jwt',
+            'provider' => 'directDistributors',
         ],
     ],
 
@@ -64,11 +64,11 @@ return [
     */
 
     'providers' => [
-        'admin' => [
+        'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        'direct-distributor' => [
+        'directDistributors' => [
             'driver' => 'eloquent',
             'model' => App\Models\DirectDistributorUserData::class,
         ],

@@ -15,7 +15,7 @@ class DirectDistributorUserDataRepository implements DirectDistributorUserDataIn
     public function getAll()
     {
         try {
-            return DirectDistributorUserData::all();
+            return DirectDistributorUserData::where('direct_distributor_id', auth('directDistributor')->user()->direct_distributor_id)->get();
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -24,7 +24,7 @@ class DirectDistributorUserDataRepository implements DirectDistributorUserDataIn
     public function getById($id)
     {
         try {
-            return DirectDistributorUserData::findOrFail($id);
+            return DirectDistributorUserData::where('direct_distributor_id', auth('directDistributor')->user()->direct_distributor_id)->find($id);
         } catch (\Throwable $th) {
             return $this->helper->http_response_code_500();
         }
@@ -36,7 +36,7 @@ class DirectDistributorUserDataRepository implements DirectDistributorUserDataIn
             DirectDistributorUserData::create($request);
             return $this->helper->http_response_code_200('Direct Distributor User Created Successfully.');
         } catch (\Throwable $th) {
-            return $this->helper->http_response_code_500();
+            return $th;
         }
     }
 

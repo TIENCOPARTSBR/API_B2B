@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\DirectDistributor;
+namespace App\Http\Controllers\DirectDistributor\UserData;
 
 use App\Http\Controllers\Controller;
-use App\Models\DirectDistributorUserData;
+use App\Interfaces\DirectDistributorUserDataInterface;
 use Illuminate\Http\Request;
 
 class UserData extends Controller
 {
     public function __construct(
-        private DirectDistributorUserData $user_data
+        private DirectDistributorUserDataInterface $user_data
     ) {}
 
     public function index()

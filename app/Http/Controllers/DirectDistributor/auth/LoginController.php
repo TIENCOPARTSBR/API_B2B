@@ -15,25 +15,20 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Verifica se o dados fornecidos são válidos e registra no guard sanctum
-        if (Auth::guard('direct-distributor')->attempt($request->only(['email', 'password']))) {
-            // Pega o id do usuário logado e gera o token
-            $user_data = Auth::guard('direct-distributor')->user();
-            $token = $this->user_data->createToken($user_data->id);
+        $credentials = $request->only(['email', 'password']);
 
-            // retorno
-            return response()->json([
-                'status' => 200,
-                'message' => 'Successful login. Welcome!',
-                'token' => $token,
-                'data' => $user_data
-            ], 200);
+        if (! $token = auth('directDistributor')->attempt($credentials)) {
+            return response()->json([ // não autorizado
+                'status' => 403,
+                'message' => 'Username or password does not match.'
+            ], 403);
         }
 
-        // não autorizado
+        // retorno
         return response()->json([
-            'status' => 403,
-            'message' => 'Username or password does not match.'
-        ], 403);
+            'status' => 200,
+            'message' => 'Successful login. Welcome!',
+            'token' => $token
+        ], 200);
     }
 }

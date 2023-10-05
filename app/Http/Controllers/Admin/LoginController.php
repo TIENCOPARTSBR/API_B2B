@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -15,24 +14,20 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Verifica se o dados fornecidos são válidos e registra no guard sanctum
-        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
-            // Pega o id do usuário logado e gera o token
-            $admin = Auth::guard('admin')->user();
-            $token = $this->admin->createToken($admin->id);
+        $credentials = $request->only(['email', 'password']);
 
-            // retorno
-            return response()->json([
-                'status' => 200,
-                'message' => 'Successful login. Welcome!',
-                'token' => $token
-            ], 200);
+        if (! $token = auth('admin')->attempt($credentials)) {
+            return response()->json([ // não autorizado
+                'status' => 403,
+                'message' => 'Username or password does not match.'
+            ], 403);
         }
 
-        // não autorizado
+        // retorno
         return response()->json([
-            'status' => 403,
-            'message' => 'Username or password does not match.'
-        ], 403);
+            'status' => 200,
+            'message' => 'Successful login. Welcome!',
+            'token' => $token
+        ], 200);
     }
 }

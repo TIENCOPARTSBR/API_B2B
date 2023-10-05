@@ -7,7 +7,7 @@ use App\Http\Controllers\Configuration\Configuration;
 use App\Http\Controllers\DirectDistributor\DirectDistributor;
 use App\Http\Controllers\DirectDistributor\auth\LoginController as DirectDistributorLoginController;
 use App\Http\Controllers\DirectDistributor\auth\RecoveryPasswordController as DirectDistributorRecoveryPasswordController;
-use App\Http\Controllers\DirectDistributor\UserData;
+use App\Http\Controllers\DirectDistributor\UserData\UserData;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +24,9 @@ use Illuminate\Support\Facades\Route;
 // admin
 Route::prefix('admin')->group(function () {
     // user
-    Route::resource('user', AdminController::class);
+    Route::resource('user', AdminController::class)->middleware('auth:admin');
     // direct distributor
-    Route::resource('direct-distributor', DirectDistributor::class);
+    Route::resource('direct-distributor', DirectDistributor::class)->middleware('auth:admin');
 
     // configuration
     Route::controller(Configuration::class)->group(function() {
@@ -34,8 +34,8 @@ Route::prefix('admin')->group(function () {
         Route::put('/config/cost-date','putCostDate');
         Route::get('/config/email-quotation','getMailQuotation');
         Route::put('/config/email-quotation','putMailQuotation');
-    });
-})->middleware('auth:sanctum:admin');
+    })->middleware('auth:admin');
+});
 
 // Não autorizado
 Route::prefix('admin')->group(function () {
@@ -51,11 +51,11 @@ Route::prefix('admin')->group(function () {
 });
 
 
-// admin
 Route::prefix('/')->group(function () {
     // user
-    Route::resource('user', UserData::class);
-})->middleware('auth:sanctum:direct-distributor');
+    Route::resource('user', UserData::class)->middleware('auth:directDistributor');
+    Route::get('/profile', function() {return auth()->user();})->middleware('auth:directDistributor');
+});
 
 
 // Não autorizado
