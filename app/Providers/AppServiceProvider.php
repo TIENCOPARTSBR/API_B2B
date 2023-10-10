@@ -6,10 +6,12 @@ use App\Interfaces\AdminConfigInterface;
 use App\Interfaces\AdminRepositoryInterface;
 use App\Interfaces\DirectDistributorInterface;
 use App\Interfaces\DirectDistributorUserDataInterface;
+use App\Interfaces\ProductInterface;
 use App\Repositories\AdminConfigRepository;
 use App\Repositories\AdminRepository;
 use App\Repositories\DirectDistributorRepository;
 use App\Repositories\DirectDistributorUserDataRepository;
+use App\Repositories\ProductRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +39,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DirectDistributorUserDataInterface::class,
             DirectDistributorUserDataRepository::class
+        );
+
+        $this->app->bind(
+            ProductInterface::class,
+            ProductRepository::class
         );
     }
 

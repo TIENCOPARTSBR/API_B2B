@@ -1,32 +1,34 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\LoginController;
-use App\Http\Controllers\Admin\RecoveryPasswordController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Auth\RecoveryPasswordController;
 use App\Http\Controllers\Configuration\Configuration;
 use App\Http\Controllers\DirectDistributor\DirectDistributor;
 use App\Http\Controllers\DirectDistributor\auth\LoginController as DirectDistributorLoginController;
 use App\Http\Controllers\DirectDistributor\auth\RecoveryPasswordController as DirectDistributorRecoveryPasswordController;
 use App\Http\Controllers\DirectDistributor\UserData\UserData;
+use App\Http\Controllers\Product\ProductSearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
+| API Routes module Admin
+|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
 */
-
-// admin
 Route::prefix('admin')->group(function () {
     // user
     Route::resource('user', AdminController::class)->middleware('auth:admin');
+
+    // profile
+    Route::get('/profile', function() {return auth()->user();})->middleware('auth:admin');
+
     // direct distributor
-    Route::resource('direct-distributor', DirectDistributor::class)->middleware('auth:admin');
+    Route::resource('/direct-distributor', DirectDistributor::class)->middleware('auth:admin');
+    // user direct distributor
+    Route::resource('/direct-distributor/user', UserData::class)->middleware('auth:admin');
 
     // configuration
     Route::controller(Configuration::class)->group(function() {
@@ -37,7 +39,11 @@ Route::prefix('admin')->group(function () {
     })->middleware('auth:admin');
 });
 
-// Não autorizado
+/*
+|--------------------------------------------------------------------------
+| Forbiden
+|--------------------------------------------------------------------------
+*/
 Route::prefix('admin')->group(function () {
     // Rota para login
     Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -50,15 +56,26 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-
+/*
+|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
+| API Routes module direct distributor
+|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
+*/
 Route::prefix('/')->group(function () {
     // user
     Route::resource('user', UserData::class)->middleware('auth:directDistributor');
     Route::get('/profile', function() {return auth()->user();})->middleware('auth:directDistributor');
+
+    Route::post('/product', [ProductSearchController::class, 'getProduct'])->middleware('auth:directDistributor');
 });
 
-
-// Não autorizado
+/*
+|--------------------------------------------------------------------------
+| Forbiden
+|--------------------------------------------------------------------------
+*/
 Route::prefix('/')->group(function () {
     // Rota para login
     Route::post('login', [DirectDistributorLoginController::class, 'login']);
